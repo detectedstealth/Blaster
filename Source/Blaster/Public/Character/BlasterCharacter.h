@@ -40,9 +40,13 @@ public:
 	
 	UFUNCTION(NetMulticast, Reliable)
 	void MulticastElim();
+
+	UPROPERTY(Replicated)
+	bool bDisableGameplay = false;
 	
 protected:
 	virtual void BeginPlay() override;
+	void RotateInPlace(float DeltaTime);
 
 	void MoveForward(float Value);
 	void MoveRight(float Value);
@@ -204,5 +208,7 @@ public:
 	FORCEINLINE float GetHealth() const { return Health; }
 	FORCEINLINE float GetMaxHealth() const { return MaxHealth; }
 	ECombatState GetCombatState() const;
+	FORCEINLINE UCombatComponent* GetCombat() const { return Combat; }
+	FORCEINLINE bool GetDisableGameplay() const { return bDisableGameplay; }
 };
 
