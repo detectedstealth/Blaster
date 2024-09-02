@@ -9,8 +9,6 @@
 #include "Weapon/WeaponTypes.h"
 #include "CombatComponent.generated.h"
 
-#define TRACE_LENGTH 80'000.f
-
 class ABlasterHUD;
 class ABlasterPlayerController;
 class ABlasterCharacter;
@@ -35,6 +33,14 @@ public:
 	void FinishReloading();
 	
 	void FireButtonPressed(bool bPressed);
+	
+	UFUNCTION(BlueprintCallable)
+	void ShotgunShellReload();
+
+	void JumpToShotgunEnd();
+
+	UFUNCTION(BlueprintCallable)
+	void ThrowGrenadeFinished();
 	
 protected:
 	virtual void BeginPlay() override;
@@ -62,7 +68,18 @@ protected:
 
 	void HandleReload();
 	int32 AmountToReload();
-	
+
+	void ThrowGrenade();
+
+	UFUNCTION(Server, Reliable)
+	void ServerThrowGrenade();
+
+	void DropEquippedWeapon();
+	void AttachActorToRightHand(AActor* ActorToAttach);
+	void AttachActorToLeftHand(AActor* ActorToAttach);
+	void UpdateCarriedAmmo();
+	void PlayEquippedWeaponSound();
+	void ReloadEmptyWeapon();
 
 private:
 	UPROPERTY()
@@ -148,6 +165,15 @@ private:
 
 	UPROPERTY(EditAnywhere)
 	int32 StartingSMGAmmo = 0;
+
+	UPROPERTY(EditAnywhere)
+	int32 StartingShotgunAmmo = 0;
+
+	UPROPERTY(EditAnywhere)
+	int32 StartingSniperAmmo = 0;
+
+	UPROPERTY(EditAnywhere)
+	int32 StartingGrenadeLauncherAmmo = 0;
 	
 	void InitializeCarriedAmmo();
 
@@ -158,6 +184,7 @@ private:
 	void OnRep_CombatState();
 
 	void UpdateAmmoValues();
+	void UpdateShotgunAmmoValues();
 
 public:	
 	

@@ -7,8 +7,7 @@
 #include "ProjectileRocket.generated.h"
 
 class URocketMovementComponent;
-class UNiagaraComponent;
-class UNiagaraSystem;
+
 /**
  * 
  */
@@ -26,14 +25,6 @@ protected:
 	
 	virtual void OnHit(UPrimitiveComponent* HitComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit) override;
 
-	void DestroyTimerFinished();
-	
-	UPROPERTY(EditAnywhere)
-	UNiagaraSystem* TrailSystem;
-
-	UPROPERTY()
-	UNiagaraComponent* TrailSystemComponent;
-
 	UPROPERTY(EditAnywhere)
 	USoundCue* ProjectileLoop;
 
@@ -47,12 +38,7 @@ protected:
 	URocketMovementComponent* RocketMovementComponent;
 
 private:
-	UPROPERTY(VisibleAnywhere)
-	UStaticMeshComponent* RocketMesh;
 
-	FTimerHandle DestroyTimer;
-
-	UPROPERTY(EditAnywhere)
-	float DestroyTime = 3.f;
+	
 };
 
